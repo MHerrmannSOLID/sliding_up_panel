@@ -397,7 +397,9 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
                         child: Container(
                           height: widget.minHeight,
                           child: widget.collapsed == null
-                              ? Container()
+                              ? Container(
+                                  height: 0,
+                                )
                               : FadeTransition(
                                   opacity:
                                       Tween(begin: 1.0, end: 0.0).animate(_ac),
@@ -574,12 +576,16 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
 
   //close the panel
   Future<void> _close() {
+    setState(() {});
     return _ac.fling(velocity: -1.0);
   }
 
   //open the panel
   Future<void> _open() {
-    return _ac.fling(velocity: 1.0);
+    setState(() {});
+    return _ac.fling(velocity: 1.0).then((x) => setState(() {
+          _isPanelVisible = true;
+        }));
   }
 
   //hide the panel (completely offscreen)
